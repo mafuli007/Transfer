@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items>
+
+	<!--Software Id, also the center's name-->
+	<SoftwareId>transfer</SoftwareId>
+	
+	<!-- The switch used turn off the transfer fucntion, if no, it will not send the files to ReceiveCenters.
+		value should be "yes" or "no" -->
+	<TransferSwitch>yes</TransferSwitch>
+	
+	<!-- Directory that will be scanned. -->
+	<ReportAddress>C:/BrazilTest/BrazilCentre/CTL</ReportAddress>
+	<!-- Directory that will store files that correctly received. -->
+	<StoreRootDir>C:/BeijingStore</StoreRootDir>
+	
+	<!-- Local FTP server info, the root directory of FTP server -->
+	<FtpMountDirectory>C:/BrazilTest/BrazilCentre/</FtpMountDirectory>
+
+	<!-- interval used to send heartbeat. unit: second-->
+	<HeartbeatInterval>5</HeartbeatInterval>
+	
+	<!-- interval used to scan the errRecord direcctory, 86400s is recommended! unit: second-->
+	<ErrRecordScanInterval>300</ErrRecordScanInterval>
+	
+	<!-- configuration of Monitor Server -->
+	<MonitorServerInfo>
+		<MonitorServerIP>127.0.0.1</MonitorServerIP>
+		<MonitorServerPort>9889</MonitorServerPort>
+	</MonitorServerInfo>
+	
+	<!--Reupload Servers, once the received files has some problems such as md5 inconformity, it will send message to 
+	 the following servers to resend the files. -->
+	<ReUploadServers>
+		<ReUploadServerInfo>
+			<softwareId>transfer</softwareId>	
+			<ReUploadServerIp>192.168.183.129</ReUploadServerIp>
+			<ReUploadServerPort>9802</ReUploadServerPort>
+		</ReUploadServerInfo>
+	</ReUploadServers>
+	
+	
+	
+	<!-- ########################################################################################## -->
+	<!-- if the item TransferSwitch is turned off, then the following configurations are meaningless--> 
+	<!-- ########################################################################################## -->
+	
+	<!-- As a uploader, it sometimes has to resend some files, this port is used to receive the resend message. -->
+	<ReupLoadServerPort>9527</ReupLoadServerPort>
+	
+	<!-- Target FTP server list, Once receive  files correctly, will send the files to the following FTP servers. -->
+	<ReceiveCenters>
+		<ReceiverFTPinfo>
+			<CenterName>beijing</CenterName>
+			<FTPIp>127.0.0.1</FTPIp>
+			<FTPPort>21</FTPPort>
+			<FTPUserName>test</FTPUserName>
+			<FTPPasswd>123456</FTPPasswd>
+			<FTPDirectory>/</FTPDirectory>
+		</ReceiverFTPinfo>
+	</ReceiveCenters>
+
+</items>
