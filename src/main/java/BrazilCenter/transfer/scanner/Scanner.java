@@ -5,14 +5,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 import BrazilCenter.DaoUtils.dao.Storager;
-import BrazilCenter.transfer.model.FileObj;
+import BrazilCenter.models.Configuration;
+import BrazilCenter.models.FileObj;
+import BrazilCenter.models.TASKTYPE;
+import BrazilCenter.models.Task;
 import BrazilCenter.transfer.repeatRequestService.RepeatRequestMsg;
 import BrazilCenter.transfer.repeatRequestService.RepeatRequestService;
-import BrazilCenter.transfer.tasks.TASKTYPE;
-import BrazilCenter.transfer.tasks.Task;
 import BrazilCenter.transfer.utils.CacheScanFileList;
-import BrazilCenter.transfer.utils.Configuration;
-import BrazilCenter.transfer.utils.LogUtils;
+ import BrazilCenter.transfer.utils.LogUtils;
 import BrazilCenter.transfer.utils.MD5Util;
 import BrazilCenter.transfer.utils.UploadReport;
 import BrazilCenter.transfer.utils.Utils;
@@ -21,11 +21,10 @@ import BrazilCenter.transfer.utils.XMLOperator;
 public class Scanner extends Thread {
 
 	private Configuration conf;
-	private Storager storer;
+
 
 	public Scanner(Configuration config) {
 		this.conf = config;
-		this.storer = new Storager();
 	}
 
 	/** check if the md5 values is equal to the value stored in report. */
@@ -115,15 +114,12 @@ public class Scanner extends Thread {
 
 						/** if the switch is "yes", then assign the task to transfer threads.*/
 						if (this.conf.getTransferSwitch().equals("yes")) {
-							Utils.sharedata.AddTask(task);
+							Utils.transferTaskQueue.AddTask(task);
 						}
 						
 						/**No mattern in which mode, the task has to be processed and stored.*/
-						BrazilCenter.DaoUtils.model.FileObj storeObj = new BrazilCenter.DaoUtils.model.FileObj();
-						storeObj.setName(task.getFilename());
-						storeObj.setPath(task.getFilepath());
-						this.storer.Store(storeObj, this.conf.getStoreRootDir());
-
+						Utils.storeTaskQueue.AddTask(task);
+						
 					} else {
 
 						RepeatRequestMsg reloadmsg = new RepeatRequestMsg(report.getSoftwareId(), report.getFilename());

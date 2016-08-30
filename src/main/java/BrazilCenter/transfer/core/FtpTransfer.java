@@ -4,13 +4,13 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import BrazilCenter.models.Configuration;
+import BrazilCenter.models.FtpServerAddress;
+import BrazilCenter.models.TASKTYPE;
+import BrazilCenter.models.Task;
 import BrazilCenter.transfer.model.ErrRecordObj;
-import BrazilCenter.transfer.model.FtpServerAddress;
-import BrazilCenter.transfer.tasks.TASKTYPE;
-import BrazilCenter.transfer.tasks.Task;
 import BrazilCenter.transfer.tcpService.TcpClient;
 import BrazilCenter.transfer.utils.CacheScanFileList;
-import BrazilCenter.transfer.utils.Configuration;
 import BrazilCenter.transfer.utils.LogUtils;
 import BrazilCenter.transfer.utils.TransferReport;
 import BrazilCenter.transfer.utils.Utils;
@@ -122,7 +122,7 @@ public class FtpTransfer extends Thread {
 		/** try to execute the task again, till to get the maximum times. */
 		if (tryCount < Utils.MAXTryCount) {
 			task.addTryCount();
-			Utils.sharedata.AddTask(task);
+			Utils.transferTaskQueue.AddTask(task);
 		} else {
 			task.finished();
 			if ((task.getTaskType() == TASKTYPE.NewTask) || (task.getTaskType() == TASKTYPE.SubFailedTask)) {

@@ -12,10 +12,10 @@ import java.util.Date;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 
-import BrazilCenter.transfer.model.FtpServerAddress;
-import BrazilCenter.transfer.tasks.Task;
-import BrazilCenter.transfer.utils.Configuration;
-import BrazilCenter.transfer.utils.LogUtils;
+import BrazilCenter.models.Configuration;
+import BrazilCenter.models.FtpServerAddress;
+import BrazilCenter.models.Task;
+  import BrazilCenter.transfer.utils.LogUtils;
 import BrazilCenter.transfer.utils.MD5Util;
 import BrazilCenter.transfer.utils.TransferReport;
 import BrazilCenter.transfer.utils.Utils;

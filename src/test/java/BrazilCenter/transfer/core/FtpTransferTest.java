@@ -1,10 +1,5 @@
 package BrazilCenter.transfer.core;
 
-import BrazilCenter.transfer.model.FtpServerAddress;
-import BrazilCenter.transfer.tasks.TASKTYPE;
-import BrazilCenter.transfer.tasks.Task;
-import BrazilCenter.transfer.utils.Configuration;
-import BrazilCenter.transfer.utils.XMLOperator;
 import junit.framework.TestCase;
 
 public class FtpTransferTest extends TestCase {

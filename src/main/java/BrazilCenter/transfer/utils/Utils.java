@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import BrazilCenter.DaoUtils.Utils.LogUtils;
-import BrazilCenter.transfer.core.TransferTasks;
+import BrazilCenter.transfer.core.TaskQueue;
 
 /**
  */
@@ -27,8 +27,8 @@ public class Utils {
 	public final static String ErrDataDir = "FailedRecords";	
 	public final static int MAXTryCount = 2;	
 	public final static int TRYCONNECTINTERVAL = 6000; 
-	public static TransferTasks sharedata = new TransferTasks();
-
+	public static TaskQueue transferTaskQueue = new TaskQueue(); //used to store the transfer tasks.
+	public static TaskQueue storeTaskQueue = new TaskQueue(); // used to keep the store tasks.
 	
 	/**
 	 */

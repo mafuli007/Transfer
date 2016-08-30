@@ -1,9 +1,9 @@
 package BrazilCenter.transfer.heartbeat;
 
+import BrazilCenter.models.Configuration;
 import BrazilCenter.transfer.model.HardwareObj;
 import BrazilCenter.transfer.model.HeartbeatObj;
 import BrazilCenter.transfer.tcpService.TcpClient;
-import BrazilCenter.transfer.utils.Configuration;
 import BrazilCenter.transfer.utils.XMLOperator;
 
 public class HeartBeat extends Thread {

@@ -25,12 +25,13 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import BrazilCenter.models.Configuration;
+import BrazilCenter.models.FtpServerAddress;
+import BrazilCenter.models.TcpServerObj;
 import BrazilCenter.transfer.model.ErrRecordObj;
-import BrazilCenter.transfer.model.FtpServerAddress;
-import BrazilCenter.transfer.model.HardwareObj;
+ import BrazilCenter.transfer.model.HardwareObj;
 import BrazilCenter.transfer.model.HeartbeatObj;
-import BrazilCenter.transfer.model.TcpServerObj;
-import BrazilCenter.transfer.reUploadService.ReUploadMsg;
+ import BrazilCenter.transfer.reUploadService.ReUploadMsg;
 
 /**
  */

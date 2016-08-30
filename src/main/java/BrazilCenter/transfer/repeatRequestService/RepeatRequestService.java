@@ -3,9 +3,9 @@ package BrazilCenter.transfer.repeatRequestService;
 import java.util.Date;
 import java.util.List;
 
-import BrazilCenter.transfer.model.TcpServerObj;
+import BrazilCenter.models.Configuration;
+import BrazilCenter.models.TcpServerObj;
 import BrazilCenter.transfer.tcpService.TcpClient;
-import BrazilCenter.transfer.utils.Configuration;
 import BrazilCenter.transfer.utils.LogUtils;
 import BrazilCenter.transfer.utils.Utils;
 import BrazilCenter.transfer.utils.XMLOperator;

@@ -6,12 +6,12 @@
 	
 	<!-- The switch used turn off the transfer fucntion, if no, it will not send the files to ReceiveCenters.
 		value should be "yes" or "no" -->
-	<TransferSwitch>yes</TransferSwitch>
+	<TransferSwitch>no</TransferSwitch>
 	
 	<!-- Directory that will be scanned. -->
 	<ReportAddress>C:/BrazilTest/BrazilCentre/CTL</ReportAddress>
 	<!-- Directory that will store files that correctly received. -->
-	<StoreRootDir>C:/BeijingStore</StoreRootDir>
+	<StoreRootDir>C:/BrazilTest/BeijingStore</StoreRootDir>
 	
 	<!-- Local FTP server info, the root directory of FTP server -->
 	<FtpMountDirectory>C:/BrazilTest/BrazilCentre/</FtpMountDirectory>

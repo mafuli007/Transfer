@@ -2,23 +2,27 @@ package BrazilCenter.transfer.Transfer;
 
 import org.apache.log4j.PropertyConfigurator;
 
-import BrazilCenter.transfer.core.Dispatcher;
+import BrazilCenter.Process.clientInterface.IServiceConnect;
+import BrazilCenter.Process.clientInterface.ProcessClient;
+import BrazilCenter.models.Configuration;
+ import BrazilCenter.transfer.core.Dispatcher;
 import BrazilCenter.transfer.heartbeat.HeartBeat;
+import BrazilCenter.transfer.process.MqProcessClient;
 import BrazilCenter.transfer.reUploadService.ReUploadService;
 import BrazilCenter.transfer.repeatRequestService.RepeatRequestService;
 import BrazilCenter.transfer.scanner.ErrRecordScanner;
 import BrazilCenter.transfer.scanner.Scanner;
 import BrazilCenter.transfer.tcpService.TcpClient;
-import BrazilCenter.transfer.utils.Configuration;
 import BrazilCenter.transfer.utils.LogUtils;
 import BrazilCenter.transfer.utils.XMLOperator;
 
 public class Main {
-	
+
 	public static Configuration conf = null;
+
 	public static void main(String args[]) throws Exception {
 
- 		XMLOperator xmloperator = new XMLOperator();
+		XMLOperator xmloperator = new XMLOperator();
 		if (!xmloperator.Initial()) {
 			LogUtils.logger.error("Parsing XML configuration failed!");
 			return;
@@ -27,7 +31,7 @@ public class Main {
 		PropertyConfigurator.configure("./log4j.properties");
 		LogUtils.logger.info("Parsing XML configuration!");
 
-		/** Initial the monitor thread*/
+		/** Initial the monitor thread */
 		TcpClient monitor_client = new TcpClient(conf.getMonitorServerIp(), conf.getMonitorServerPort());
 		monitor_client.start();
 		if (monitor_client.isConnected()) {
@@ -47,15 +51,21 @@ public class Main {
 		RepeatRequestService reGetFileService = new RepeatRequestService(conf);
 		reGetFileService.start();
 
- 		if (Main.conf.getTransferSwitch().compareTo("yes") == 0) {
+		/** Initial process client */
+		MqProcessClient processClient = new MqProcessClient();
+		processClient.setConfiguration(conf);
+		Thread processThread = new Thread(processClient);
+		processThread.start();
+
+		if (Main.conf.getTransferSwitch().compareTo("yes") == 0) {
 			ErrRecordScanner errDataScan = new ErrRecordScanner(Main.conf);
 			Thread errScanThread = new Thread(errDataScan);
 			errScanThread.start();
 
- 			Thread dispatchThread = new Thread(new Dispatcher(Main.conf, monitor_client));
+			Thread dispatchThread = new Thread(new Dispatcher(Main.conf, monitor_client));
 			dispatchThread.start();
-			
-			/** Initial reupload service*/
+
+			/** Initial reupload service */
 			ReUploadService reUploadService = new ReUploadService(conf);
 			reUploadService.StartServer();
 		}

@@ -3,11 +3,11 @@ package BrazilCenter.transfer.core;
 import java.util.LinkedList;
 import java.util.List;
 
-import BrazilCenter.transfer.model.FtpServerAddress;
-import BrazilCenter.transfer.tasks.TASKTYPE;
-import BrazilCenter.transfer.tasks.Task;
-import BrazilCenter.transfer.tcpService.TcpClient;
-import BrazilCenter.transfer.utils.Configuration;
+import BrazilCenter.models.Configuration;
+import BrazilCenter.models.FtpServerAddress;
+import BrazilCenter.models.TASKTYPE;
+import BrazilCenter.models.Task;
+ import BrazilCenter.transfer.tcpService.TcpClient;
 import BrazilCenter.transfer.utils.LogUtils;
 import BrazilCenter.transfer.utils.Utils;
 
@@ -59,7 +59,7 @@ public class Dispatcher extends Thread {
 	public void run() {
 		Task task = null;
 		while (true) {
-			if ((task = Utils.sharedata.GetTask()) != null) {
+			if ((task = Utils.transferTaskQueue.GetTask()) != null) {
 				if (task.getTaskType() == TASKTYPE.NewTask) {
 					/** 1. assign how subtasks for this task. */
 					task.setSubTaskNumber(this.transferList.size());

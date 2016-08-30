@@ -4,13 +4,13 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
+import BrazilCenter.models.Configuration;
+import BrazilCenter.models.FileObj;
+import BrazilCenter.models.TASKTYPE;
+import BrazilCenter.models.Task;
 import BrazilCenter.transfer.model.ErrRecordObj;
-import BrazilCenter.transfer.model.FileObj;
-import BrazilCenter.transfer.tasks.TASKTYPE;
-import BrazilCenter.transfer.tasks.Task;
 import BrazilCenter.transfer.utils.CacheScanFileList;
-import BrazilCenter.transfer.utils.Configuration;
-import BrazilCenter.transfer.utils.LogUtils;
+ import BrazilCenter.transfer.utils.LogUtils;
 import BrazilCenter.transfer.utils.Utils;
 import BrazilCenter.transfer.utils.XMLOperator;
 
@@ -91,7 +91,7 @@ public class ErrRecordScanner extends Thread {
 					task.setFailedCenterName(record.getTargetCenterName());
 					task.setFailedTimes(record.getFailedTimes());
 
-					Utils.sharedata.AddTask(task);
+					Utils.transferTaskQueue.AddTask(task);
 
 					/** delete the error record */
 					Utils.delFile(new File(errRecordNameWithPath));

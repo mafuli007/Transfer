@@ -1,0 +1,4 @@
+BrazilCenter\transfer\AppTest.class
+BrazilCenter\transfer\core\FtpTransferTest.class
+BrazilCenter\transfer\core\TaskQueueTest.class
+BrazilCenter\transfer\scanner\ErrRecordScannerTest.class

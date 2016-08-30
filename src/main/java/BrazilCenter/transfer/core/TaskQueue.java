@@ -2,15 +2,16 @@ package BrazilCenter.transfer.core;
 
 import java.util.*;
 
-import BrazilCenter.transfer.tasks.Task;
+import BrazilCenter.models.Task;
+
 
 /**
  * */
-public class TransferTasks {
+public class TaskQueue {
 
 	private Queue<Task> tasklist;
 
-	public TransferTasks() {
+	public TaskQueue() {
 		this.tasklist = new LinkedList<Task>();
 	}
 	public Task GetTask() {
