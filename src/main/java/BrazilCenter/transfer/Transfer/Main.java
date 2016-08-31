@@ -2,10 +2,8 @@ package BrazilCenter.transfer.Transfer;
 
 import org.apache.log4j.PropertyConfigurator;
 
-import BrazilCenter.Process.clientInterface.IServiceConnect;
-import BrazilCenter.Process.clientInterface.ProcessClient;
 import BrazilCenter.models.Configuration;
- import BrazilCenter.transfer.core.Dispatcher;
+import BrazilCenter.transfer.core.Dispatcher;
 import BrazilCenter.transfer.heartbeat.HeartBeat;
 import BrazilCenter.transfer.process.MqProcessClient;
 import BrazilCenter.transfer.reUploadService.ReUploadService;
@@ -52,8 +50,7 @@ public class Main {
 		reGetFileService.start();
 
 		/** Initial process client */
-		MqProcessClient processClient = new MqProcessClient();
-		processClient.setConfiguration(conf);
+		MqProcessClient processClient = new MqProcessClient(conf);
 		Thread processThread = new Thread(processClient);
 		processThread.start();
 

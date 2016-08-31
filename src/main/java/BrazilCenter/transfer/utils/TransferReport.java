@@ -1,5 +1,8 @@
 package BrazilCenter.transfer.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  *
  * @author phoenix
@@ -30,14 +33,15 @@ public class TransferReport {
 		this.outReportPath = " ";
 		this.targetCentername = " ";
 		this.softwareId = " ";
-		this.startSendTime = " ";
-		this.endSendTime = " ";
-		this.sourceAddress = " ";
+  		this.sourceAddress = " ";
 		this.destinationAddress = " ";
 		this.filename = " ";
 		this.md5value = " ";
 		this.result = false;
 		this.size = 0;
+		SimpleDateFormat startFormat = new SimpleDateFormat(Utils.dateFormat24Mis);
+		this.startSendTime = startFormat.format(new Date());
+		this.endSendTime = startFormat.format(new Date());
 	}
 
 	public String getTargetCentername() {

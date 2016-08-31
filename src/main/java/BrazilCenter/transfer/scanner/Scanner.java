@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
-import BrazilCenter.DaoUtils.dao.Storager;
 import BrazilCenter.models.Configuration;
 import BrazilCenter.models.FileObj;
 import BrazilCenter.models.TASKTYPE;
@@ -78,7 +77,7 @@ public class Scanner extends Thread {
 							fileObj.setFilesize(file.length());
 							flist.add(fileObj);
 							CacheScanFileList.AddToCacheScanFileList(file.getName());
-							LogUtils.logger.info("Found new report file: " + file.getName());
+							LogUtils.logger.info("Find new report file: " + file.getName());
 						}
 					}
 				}

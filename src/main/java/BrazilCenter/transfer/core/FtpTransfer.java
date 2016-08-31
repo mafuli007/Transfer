@@ -211,7 +211,7 @@ public class FtpTransfer extends Thread {
 
 					/** Send the real time information to Monitor Server. */
 					report.setTargetCentername(this.targetName);
-					monitor_client.SendMessage(XMLOperator.MakeXMLTransferTaskInfo(report));
+					monitor_client.SendRealInfo(XMLOperator.MakeXMLTransferTaskInfo(report));
 				} else {// transfer failed.
 					this.handelFaildTask(task);
 				}

@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import BrazilCenter.transfer.utils.LogUtils;
 
@@ -20,7 +22,16 @@ public class TcpClient extends Thread {
 	private OutputStream out;
 	private DataOutputStream dout;
 	private boolean connected = false; 
+	private Queue<String> realInfoList;
 
+	public synchronized void SendRealInfo(String msg){
+		this.realInfoList.add(msg);
+	}
+	
+	private synchronized String getRealInfo(){
+		return this.realInfoList.poll();
+	}
+	
 	public TcpClient(String server_ip, int server_port) {
 		try {
 			this.serverIp = server_ip;
@@ -30,6 +41,7 @@ public class TcpClient extends Thread {
 		} catch (IOException e) {
 			LogUtils.logger.error("TCP connecting failed! IP:" + server_ip + "Port:" + server_port);
 		}
+		this.realInfoList = new LinkedList<String>();
 	}
 
 	public void Reconnect() {
@@ -100,6 +112,10 @@ public class TcpClient extends Thread {
 		while (true) {
 			if (this.connected == false) {
 				this.Reconnect();
+			}
+			String msg = null;
+			while(( msg = this.getRealInfo()) != null){
+				this.SendMessage(msg);
 			}
 			try {
 				Thread.sleep(5 * 1000);
