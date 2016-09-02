@@ -95,12 +95,6 @@
 			<groupId>BrazilCenter</groupId>
 			<artifactId>DaoUtils</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-<!-- 			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-nop</artifactId>
-				</exclusion>
-			</exclusions> -->
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

@@ -3,6 +3,7 @@ BrazilCenter\transfer\utils\XMLOperator.class
 BrazilCenter\transfer\scanner\Scanner.class
 BrazilCenter\transfer\utils\Utils.class
 BrazilCenter\transfer\Transfer\Main.class
+BrazilCenter\transfer\processClient\MqProcessClient.class
 BrazilCenter\transfer\model\HardwareObj.class
 BrazilCenter\transfer\reUploadService\ReUploadService.class
 BrazilCenter\transfer\core\Dispatcher.class
@@ -15,7 +16,6 @@ BrazilCenter\transfer\core\FtpClient.class
 BrazilCenter\transfer\model\HeartbeatObj.class
 BrazilCenter\transfer\utils\CacheScanFileList.class
 BrazilCenter\transfer\heartbeat\HeartBeat.class
-BrazilCenter\transfer\process\MqProcessClient.class
 BrazilCenter\transfer\utils\UploadReport.class
 BrazilCenter\transfer\scanner\ErrRecordScanner.class
 BrazilCenter\transfer\utils\TransferReport.class

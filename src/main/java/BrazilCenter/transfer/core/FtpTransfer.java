@@ -65,11 +65,11 @@ public class FtpTransfer extends Thread {
 	}
 
 	/** move the input report to error directory. */
-	private boolean MoveInputReportToErrorDir(Task task) {
+	private boolean CopyInputReportToErrorDir(Task task) {
 		String inUploadFileNameWithPath = task.getInputReportpath() + File.separator + task.getInputReportName();
 		String fileToDir = task.getInputReportpath() + File.separator + "error" + File.separator + this.targetName
 				+ File.separator + task.getInputReportName();
-		return Utils.MoveFile(inUploadFileNameWithPath, fileToDir);
+		return Utils.CopyFile(inUploadFileNameWithPath, fileToDir);
 	}
 
 	private boolean DeleteInputReportFile(Task task) {
@@ -83,7 +83,8 @@ public class FtpTransfer extends Thread {
 	private void handleSuccessedTask(Task task) {
 
 		task.finished();
-		if ((task.getTaskType() == TASKTYPE.NewTask) || (task.getTaskType() == TASKTYPE.LocalFailedTask)) {
+		if ((task.getTaskType() == TASKTYPE.NewTask) || (task.getTaskType() == TASKTYPE.SubFailedTask)
+				|| (task.getTaskType() == TASKTYPE.LocalFailedTask)) {
 			if (task.getsubTaskNumber() == 0) {
 				if (this.MoveInputReportToOkDir(task)) {
 					CacheScanFileList.RemoveFromCacheScanFileList(task.getInputReportName());
@@ -91,16 +92,6 @@ public class FtpTransfer extends Thread {
 			}
 		} else if (task.getTaskType() == TASKTYPE.RemoteTask) {
 			// do nothing.
-		} else if (task.getTaskType() == TASKTYPE.SubFailedTask) {
-			/**
-			 * if one of sub tasks failed, then the input report will be moved
-			 * to error directory.
-			 */
-			if (task.getsubTaskNumber() == 0) {
-				if (this.MoveInputReportToErrorDir(task)) {
-					CacheScanFileList.RemoveFromCacheScanFileList(task.getInputReportName());
-				}
-			}
 		}
 	}
 
@@ -122,17 +113,17 @@ public class FtpTransfer extends Thread {
 		/** try to execute the task again, till to get the maximum times. */
 		if (tryCount < Utils.MAXTryCount) {
 			task.addTryCount();
-			Utils.transferTaskQueue.AddTask(task);
+			this.addTask(task);
 		} else {
 			task.finished();
 			if ((task.getTaskType() == TASKTYPE.NewTask) || (task.getTaskType() == TASKTYPE.SubFailedTask)) {
+				if (this.CopyInputReportToErrorDir(task)) {
+				}
 				if (task.getsubTaskNumber() == 0) {
 					// all the sub tasks are finished. the final result of this
-					// task is failed.
-					if (this.MoveInputReportToErrorDir(task)) {
-						CacheScanFileList.RemoveFromCacheScanFileList(task.getInputReportName());
-					}
-					this.addFailedRecord(task);
+					// task is failed.			
+					this.DeleteInputReportFile(task);
+					CacheScanFileList.RemoveFromCacheScanFileList(task.getInputReportName());
 				} else {
 					// other sub tasks are not finished, but this sub task is
 					// failed.
@@ -144,11 +135,10 @@ public class FtpTransfer extends Thread {
 				CacheScanFileList.RemoveFromCacheScanFileList(task.getInputReportName());
 
 				/** add new error record. */
-				this.addFailedRecord(task);
 			} else if (task.getTaskType() == TASKTYPE.RemoteTask) {
-				this.addFailedRecord(task);
 			}
 		}
+		this.addFailedRecord(task);
 	}
 
 	/**

@@ -5,7 +5,7 @@ import org.apache.log4j.PropertyConfigurator;
 import BrazilCenter.models.Configuration;
 import BrazilCenter.transfer.core.Dispatcher;
 import BrazilCenter.transfer.heartbeat.HeartBeat;
-import BrazilCenter.transfer.process.MqProcessClient;
+import BrazilCenter.transfer.processClient.MqProcessClient;
 import BrazilCenter.transfer.reUploadService.ReUploadService;
 import BrazilCenter.transfer.repeatRequestService.RepeatRequestService;
 import BrazilCenter.transfer.scanner.ErrRecordScanner;
@@ -54,7 +54,7 @@ public class Main {
 		Thread processThread = new Thread(processClient);
 		processThread.start();
 
-		if (Main.conf.getTransferSwitch().compareTo("yes") == 0) {
+		if (Main.conf.getTransferSwitch().compareTo("yes") == 0){
 			ErrRecordScanner errDataScan = new ErrRecordScanner(Main.conf);
 			Thread errScanThread = new Thread(errDataScan);
 			errScanThread.start();

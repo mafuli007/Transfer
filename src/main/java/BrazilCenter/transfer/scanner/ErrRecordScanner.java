@@ -94,7 +94,7 @@ public class ErrRecordScanner extends Thread {
 					Utils.transferTaskQueue.AddTask(task);
 
 					/** delete the error record */
-					Utils.delFile(new File(errRecordNameWithPath));
+					//Utils.delFile(new File(errRecordNameWithPath));
 				} else {
 					LogUtils.logger.error("Failed to parse the error record. " + errRecordName);
 				}

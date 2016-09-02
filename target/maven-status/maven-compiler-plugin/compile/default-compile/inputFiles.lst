@@ -10,11 +10,11 @@ H:\WorkSpace\BrazilCenter\Transfer2.0\src\main\java\BrazilCenter\transfer\utils\
 H:\WorkSpace\BrazilCenter\Transfer2.0\src\main\java\BrazilCenter\transfer\tcpService\TcpClient.java
 H:\WorkSpace\BrazilCenter\Transfer2.0\src\main\java\BrazilCenter\transfer\repeatRequestService\RepeatRequestMsg.java
 H:\WorkSpace\BrazilCenter\Transfer2.0\src\main\java\BrazilCenter\transfer\utils\XMLOperator.java
-H:\WorkSpace\BrazilCenter\Transfer2.0\src\main\java\BrazilCenter\transfer\process\MqProcessClient.java
 H:\WorkSpace\BrazilCenter\Transfer2.0\src\main\java\BrazilCenter\transfer\heartbeat\HeartBeat.java
 H:\WorkSpace\BrazilCenter\Transfer2.0\src\main\java\BrazilCenter\transfer\utils\Utils.java
 H:\WorkSpace\BrazilCenter\Transfer2.0\src\main\java\BrazilCenter\transfer\model\ErrRecordObj.java
 H:\WorkSpace\BrazilCenter\Transfer2.0\src\main\java\BrazilCenter\transfer\repeatRequestService\RepeatRequestMsgList.java
+H:\WorkSpace\BrazilCenter\Transfer2.0\src\main\java\BrazilCenter\transfer\processClient\MqProcessClient.java
 H:\WorkSpace\BrazilCenter\Transfer2.0\src\main\java\BrazilCenter\transfer\reUploadService\ReUploadMsg.java
 H:\WorkSpace\BrazilCenter\Transfer2.0\src\main\java\BrazilCenter\transfer\core\TaskQueue.java
 H:\WorkSpace\BrazilCenter\Transfer2.0\src\main\java\BrazilCenter\transfer\utils\CacheScanFileList.java
