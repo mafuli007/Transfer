@@ -45,7 +45,7 @@ public class ReUploadService {
 		while (true) {
 			try {
 				Socket cs = this.s.accept();
-				LogUtils.logger.info(cs.getInetAddress() + "��Online!");
+				LogUtils.logger.info(cs.getInetAddress() + "Online!");
 				new ServerThread(cs, this.conf).start();
 			} catch (IOException e) {
 				LogUtils.logger.error(e.getMessage());
@@ -86,7 +86,7 @@ class ServerThread extends Thread {
 		String address = scanAddress + File.separator + relativePath;
 		File parentF = new File(address);
 		if (!parentF.exists()) {
-			LogUtils.logger.warn("Directory: " + address + " doesn't exist!");
+			LogUtils.logger.warn("Directory: " + address + " does not exist!");
 		} else {
 			String[] subFiles = parentF.list();
 			for (int i = 0; i < subFiles.length; i++) {
@@ -162,16 +162,16 @@ class ServerThread extends Thread {
  							Utils.transferTaskQueue.AddTask(task);
 						}
 					} else {
-						LogUtils.logger.error("didn't find reupload file��" + reuploadMsgObj.getFileName());
+						LogUtils.logger.error("did not find reupload file:" + reuploadMsgObj.getFileName());
 					}
 				}
 			}
 		} catch (IOException e) {
 			try {
 				this.sock.close();
-				LogUtils.logger.info(sock.getInetAddress() + " closed! ��" + e.getMessage());
+				LogUtils.logger.info(sock.getInetAddress() + " closed!" + e.getMessage());
 			} catch (IOException e1) {
-				LogUtils.logger.error("closed unexcepted! ��" + e.getMessage());
+				LogUtils.logger.error("closed unexcepted!" + e.getMessage());
 			}
 		}
 	}

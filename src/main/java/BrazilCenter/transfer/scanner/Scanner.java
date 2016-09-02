@@ -135,7 +135,7 @@ public class Scanner extends Thread {
 
 					String findName = reportName.substring(reportName.indexOf("_") + 1, reportName.indexOf("."));
 					RepeatRequestMsg reloadmsg = new RepeatRequestMsg(findName);
-					reloadmsg.setType(0);
+					reloadmsg.setType(0);  // send the reloadmsg to all the reupload service. 
 					RepeatRequestService.shareMsgList.AddMsg(reloadmsg);
 					
 					if(Utils.MoveFile(reportPathAndName, this.conf.getReportRootDir() + File.separator
