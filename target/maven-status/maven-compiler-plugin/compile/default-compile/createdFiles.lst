@@ -2,9 +2,9 @@ BrazilCenter\transfer\repeatRequestService\RepeatRequestMsgList.class
 BrazilCenter\transfer\utils\XMLOperator.class
 BrazilCenter\transfer\scanner\Scanner.class
 BrazilCenter\transfer\utils\Utils.class
+BrazilCenter\transfer\tcpService\MonitorTcpClient.class
 BrazilCenter\transfer\Transfer\Main.class
 BrazilCenter\transfer\processClient\MqProcessClient.class
-BrazilCenter\transfer\model\HardwareObj.class
 BrazilCenter\transfer\reUploadService\ReUploadService.class
 BrazilCenter\transfer\core\Dispatcher.class
 BrazilCenter\transfer\core\TaskQueue.class
@@ -13,14 +13,13 @@ BrazilCenter\transfer\repeatRequestService\RepeatRequestMsg.class
 BrazilCenter\transfer\repeatRequestService\RepeatRequestService.class
 BrazilCenter\transfer\reUploadService\ServerThread.class
 BrazilCenter\transfer\core\FtpClient.class
-BrazilCenter\transfer\model\HeartbeatObj.class
 BrazilCenter\transfer\utils\CacheScanFileList.class
 BrazilCenter\transfer\heartbeat\HeartBeat.class
 BrazilCenter\transfer\utils\UploadReport.class
 BrazilCenter\transfer\scanner\ErrRecordScanner.class
+BrazilCenter\transfer\tcpService\RequestTcpClient.class
 BrazilCenter\transfer\utils\TransferReport.class
 BrazilCenter\transfer\reUploadService\ReUploadMsg.class
 BrazilCenter\transfer\core\FtpTransfer.class
 BrazilCenter\transfer\model\ErrRecordObj.class
-BrazilCenter\transfer\tcpService\TcpClient.class
 BrazilCenter\transfer\utils\MD5Util.class

@@ -12,27 +12,19 @@ import java.util.Queue;
 import BrazilCenter.transfer.utils.LogUtils;
 
 /**
-  * 
+  * used to send repeat request to the reupload service. 
  * @author phoenix
  */
-public class TcpClient extends Thread {
+public class RequestTcpClient extends Thread {
 	private Socket s;
 	private String serverIp;
 	private int serverPort;
 	private OutputStream out;
 	private DataOutputStream dout;
 	private boolean connected = false; 
-	private Queue<String> realInfoList;
 
-	public synchronized void SendRealInfo(String msg){
-		this.realInfoList.add(msg);
-	}
 	
-	private synchronized String getRealInfo(){
-		return this.realInfoList.poll();
-	}
-	
-	public TcpClient(String server_ip, int server_port) {
+	public RequestTcpClient(String server_ip, int server_port) {
 		try {
 			this.serverIp = server_ip;
 			this.serverPort = server_port;
@@ -41,7 +33,6 @@ public class TcpClient extends Thread {
 		} catch (IOException e) {
 			LogUtils.logger.error("TCP connecting failed! IP:" + server_ip + "Port:" + server_port);
 		}
-		this.realInfoList = new LinkedList<String>();
 	}
 
 	public void Reconnect() {
@@ -107,22 +98,5 @@ public class TcpClient extends Thread {
 		}
 	}
 
-	public void run() {
-		// TODO Auto-generated method stub
-		while (true) {
-			if (this.connected == false) {
-				this.Reconnect();
-			}
-			String msg = null;
-			while(( msg = this.getRealInfo()) != null){
-				this.SendMessage(msg);
-			}
-			try {
-				Thread.sleep(5 * 1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
+	public void run() {}
 }

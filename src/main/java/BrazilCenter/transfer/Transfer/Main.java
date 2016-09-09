@@ -10,7 +10,8 @@ import BrazilCenter.transfer.reUploadService.ReUploadService;
 import BrazilCenter.transfer.repeatRequestService.RepeatRequestService;
 import BrazilCenter.transfer.scanner.ErrRecordScanner;
 import BrazilCenter.transfer.scanner.Scanner;
-import BrazilCenter.transfer.tcpService.TcpClient;
+import BrazilCenter.transfer.tcpService.MonitorTcpClient;
+import BrazilCenter.transfer.tcpService.RequestTcpClient;
 import BrazilCenter.transfer.utils.LogUtils;
 import BrazilCenter.transfer.utils.XMLOperator;
 
@@ -30,13 +31,10 @@ public class Main {
 		LogUtils.logger.info("Parsing XML configuration!");
 
 		/** Initial the monitor thread */
-		TcpClient monitor_client = new TcpClient(conf.getMonitorServerIp(), conf.getMonitorServerPort());
-		monitor_client.start();
-		if (monitor_client.isConnected()) {
-			LogUtils.logger.info("Initialing monitor thread!");
-		} else {
-			LogUtils.logger.error("Initialing monitor thread failed!");
-		}
+		MonitorTcpClient monitor_client = new MonitorTcpClient(conf.getMonitorServerIp(), conf.getMonitorServerPort());
+		Thread monitorThread = new Thread(monitor_client);
+		monitorThread.start();
+
 		HeartBeat heatbeat = new HeartBeat(conf, monitor_client);
 		heatbeat.start();
 
@@ -62,7 +60,7 @@ public class Main {
 			Thread dispatchThread = new Thread(new Dispatcher(Main.conf, monitor_client));
 			dispatchThread.start();
 
-			/** Initial reupload service */
+			/** Initial reupload service, ###this one should always be the last step. */
 			ReUploadService reUploadService = new ReUploadService(conf);
 			reUploadService.StartServer();
 		}

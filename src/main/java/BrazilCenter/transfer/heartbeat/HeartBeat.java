@@ -1,37 +1,38 @@
 package BrazilCenter.transfer.heartbeat;
 
+import BrazilCenter.DaoUtils.Utils.LogUtils;
+import BrazilCenter.HeartBeat.Utils.HeartBeatUtils;
 import BrazilCenter.models.Configuration;
-import BrazilCenter.transfer.model.HardwareObj;
-import BrazilCenter.transfer.model.HeartbeatObj;
-import BrazilCenter.transfer.tcpService.TcpClient;
-import BrazilCenter.transfer.utils.XMLOperator;
+import BrazilCenter.models.HeartBeatObj;
+import BrazilCenter.transfer.tcpService.MonitorTcpClient;
+import BrazilCenter.transfer.tcpService.RequestTcpClient;
 
 public class HeartBeat extends Thread {
 
 	private Configuration conf;
-	private HardwareObj hardwareobj;
-	private HeartbeatObj hbobj;
-	private TcpClient monitor_client;
+	private HeartBeatObj hbobj;
+	private MonitorTcpClient monitor_client;
 
-	public HeartBeat(Configuration conf, TcpClient client) {
+	public HeartBeat(Configuration conf, MonitorTcpClient client) {
  		this.conf = conf;
- 		hardwareobj = new HardwareObj();
- 		hbobj = new HeartbeatObj();
-		hbobj.setSoftwareId(this.conf.getSoftwareId());
+ 		hbobj = new HeartBeatObj();
+		hbobj.setSoftwareid(this.conf.getSoftwareId());
 		this.monitor_client = client;
 	}
 
 	@Override
 	public void run() {
 		
+		LogUtils.logger.info("HeartBeat thread started!");
 		while (true) {
 			/** update sending time and hardware status. */
 			hbobj.update();
-			hardwareobj.update();
 
 			 
-			String msg = XMLOperator.MakeXMLHeartbeat(hbobj, hardwareobj);
-			monitor_client.SendMessage(msg);
+			String msg = HeartBeatUtils.MakeXMLHeartbeat(hbobj);
+			if(!monitor_client.SendHeartbeatMessage(msg)){
+				LogUtils.logger.debug("failed to send heartbeat..");
+			}
 			
 			/** sleep for interval seconds. */
 			try {

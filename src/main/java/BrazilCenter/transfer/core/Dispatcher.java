@@ -7,7 +7,8 @@ import BrazilCenter.models.Configuration;
 import BrazilCenter.models.FtpServerAddress;
 import BrazilCenter.models.TASKTYPE;
 import BrazilCenter.models.Task;
- import BrazilCenter.transfer.tcpService.TcpClient;
+import BrazilCenter.transfer.tcpService.MonitorTcpClient;
+import BrazilCenter.transfer.tcpService.RequestTcpClient;
 import BrazilCenter.transfer.utils.LogUtils;
 import BrazilCenter.transfer.utils.Utils;
 
@@ -40,7 +41,7 @@ public class Dispatcher extends Thread {
 	 * @param confr
 	 * @param monitorClient
 	 */
-	public Dispatcher(Configuration confr, TcpClient monitorClient) {
+	public Dispatcher(Configuration confr, MonitorTcpClient monitorClient) {
 
 		this.transferList = new LinkedList<FtpTransfer>();
 		List<FtpServerAddress> addressList = confr.getAddresslist();

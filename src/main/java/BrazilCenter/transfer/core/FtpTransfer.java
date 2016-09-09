@@ -9,7 +9,7 @@ import BrazilCenter.models.FtpServerAddress;
 import BrazilCenter.models.TASKTYPE;
 import BrazilCenter.models.Task;
 import BrazilCenter.transfer.model.ErrRecordObj;
-import BrazilCenter.transfer.tcpService.TcpClient;
+import BrazilCenter.transfer.tcpService.MonitorTcpClient;
 import BrazilCenter.transfer.utils.CacheScanFileList;
 import BrazilCenter.transfer.utils.LogUtils;
 import BrazilCenter.transfer.utils.TransferReport;
@@ -21,12 +21,12 @@ import BrazilCenter.transfer.utils.XMLOperator;
 public class FtpTransfer extends Thread {
 
 	private String targetName;
-	private TcpClient monitor_client;
+	private MonitorTcpClient monitor_client;
 	private FtpClient ftpclient;
 	private Queue<Task> taskList;
 	private Configuration conf;
 
-	public FtpTransfer(Configuration confr, TcpClient monitorClient, FtpServerAddress serverAddress) {
+	public FtpTransfer(Configuration confr, MonitorTcpClient monitorClient, FtpServerAddress serverAddress) {
 		this.monitor_client = monitorClient;
 		this.conf = confr;
 		this.taskList = new LinkedList<Task>();

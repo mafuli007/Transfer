@@ -5,7 +5,7 @@ import java.util.List;
 
 import BrazilCenter.models.Configuration;
 import BrazilCenter.models.TcpServerObj;
-import BrazilCenter.transfer.tcpService.TcpClient;
+import BrazilCenter.transfer.tcpService.RequestTcpClient;
 import BrazilCenter.transfer.utils.LogUtils;
 import BrazilCenter.transfer.utils.Utils;
 import BrazilCenter.transfer.utils.XMLOperator;
@@ -43,7 +43,7 @@ public class RepeatRequestService extends Thread {
 	private void SendMsgToReuploadServer(TcpServerObj serverObj, RepeatRequestMsg message) {
 
 		/** 1. connnect to the reupload server */
-		TcpClient client = new TcpClient(serverObj.getIp(), serverObj.getPort());
+		RequestTcpClient client = new RequestTcpClient(serverObj.getIp(), serverObj.getPort());
 
 		if (client.isConnected() == true) {
 			/** 2. create reuploadMsg */

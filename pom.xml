@@ -93,7 +93,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>BrazilCenter</groupId>
-			<artifactId>DaoUtils</artifactId>
+			<artifactId>BrazilCenterUtils</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
