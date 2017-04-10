@@ -1,7 +1,6 @@
 package BrazilCenter.transfer.utils;
 
 /**
- * ��˵���������ϴ��ͻ��˷��͵����֪ͨ
  *
  * @author phoenix
  * @Time 20150128

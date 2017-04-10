@@ -35,7 +35,7 @@ public class ReUploadService {
 		try {
 			this.s = new ServerSocket(this.conf.getReupLoadServerPort());
 			setConnected(true);
-			LogUtils.logger.info("Reuploader Server Started....Port" + this.conf.getReupLoadServerPort());
+			LogUtils.logger.info("Reuploader Server Started!");
 		} catch (IOException e) {
 			LogUtils.logger.error("TCP Server Started Failed! :" + e.getMessage());
 		}
@@ -162,7 +162,7 @@ class ServerThread extends Thread {
  							Utils.transferTaskQueue.AddTask(task);
 						}
 					} else {
-						LogUtils.logger.error("did not find reupload file:" + reuploadMsgObj.getFileName());
+						LogUtils.logger.error("Can not find reupload file:" + reuploadMsgObj.getFileName());
 					}
 				}
 			}

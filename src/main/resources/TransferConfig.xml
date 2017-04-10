@@ -10,9 +10,7 @@
 
 	<!-- Directory that will be scanned. -->
 	<ReportAddress>C:/BrazilTest/BrazilCentre/CTL</ReportAddress>
-	<!-- Directory that will store files that correctly received. -->
-	<StoreRootDir>C:/BrazilTest/BeijingStore</StoreRootDir>
-
+  
 	<!-- Local FTP server info, the root directory of FTP server -->
 	<FtpMountDirectory>C:/BrazilTest/BrazilCentre/</FtpMountDirectory>
 
@@ -40,7 +38,12 @@
 		</ReUploadServerInfo>
 	</ReUploadServers>
 
-
+	<!-- Mq server configuration -->
+	<MqServerInfo>
+		<MqServerIP>192.168.183.129</MqServerIP>
+		<MqUserName>admin</MqUserName>
+		<MqPasswd>admin</MqPasswd>
+	</MqServerInfo>
 
 	<!-- ########################################################################################## -->
 	<!-- if the item TransferSwitch is turned off, then the following configurations are meaningless -->

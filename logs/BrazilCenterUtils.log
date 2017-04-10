@@ -1,0 +1,25 @@
+2016-12-02 16:43:51 main transfer INFO Parsing XML configuration!
+ 2016-12-02 16:43:51 Thread-3 BrazilCenterUtils INFO HeartBeat thread started!
+ 2016-12-02 16:43:51 Thread-5 transfer INFO Find new report file: 20161201181542_SJC_LID01_L0_SRW_STP_V01_2016112601000003.xml
+ 2016-12-02 16:43:51 Thread-6 transfer INFO RepeatRequest Service Started!
+ 2016-12-02 16:43:51 Thread-5 transfer ERROR Error happened when Caculate MD5 value, File: C:/BrazilTest/BrazilCentre//DATA/SJC_LID01_L0_SRW_STP_V01_2016112601000003.Mcs doesn't exist! 
+ 2016-12-02 16:44:01 Thread-6 transfer ERROR RepeatRequest server doesn't exist: BrazilTransfer
+ 2016-12-02 16:47:27 Thread-5 transfer INFO Find new report file: 20161130183506_SJC_LID01_L0_PRW_STP_V01_2016112402000019.xml
+ 2016-12-02 16:47:27 Thread-5 transfer INFO Find new report file: 20161130183637_SJC_LID01_L0_SRW_STP_V01_2016112402000021.xml
+ 2016-12-02 16:47:27 Thread-5 transfer INFO Find new report file: 20161130183707_SJC_LID01_L0_SRW_STP_V01_2016112402000005.xml
+ 2016-12-02 16:47:27 Thread-5 transfer INFO Find new report file: 20161201173126_SJC_LID01_L0_PRW_STP_V01_2016112501000006.xml
+ 2016-12-02 16:47:27 Thread-5 transfer INFO Find new report file: 20161201173447_SJC_LID01_L0_SRW_STP_V01_2016112501000004.xml
+ 2016-12-02 16:47:27 Thread-5 transfer INFO Find new report file: 20161201181512_SJC_LID01_L0_PRW_STP_V01_2016112601000003.xml
+ 2016-12-02 16:47:27 Thread-5 transfer ERROR Error happened when Caculate MD5 value, File: C:/BrazilTest/BrazilCentre//DATA/SJC_LID01_L0_PRW_STP_V01_2016112402000019.Mcs doesn't exist! 
+ 2016-12-02 16:47:27 Thread-5 transfer ERROR Error happened when Caculate MD5 value, File: C:/BrazilTest/BrazilCentre//DATA/SJC_LID01_L0_SRW_STP_V01_2016112402000021.Mcs doesn't exist! 
+ 2016-12-02 16:47:27 Thread-5 transfer ERROR Error happened when Caculate MD5 value, File: C:/BrazilTest/BrazilCentre//DATA/SJC_LID01_L0_SRW_STP_V01_2016112402000005.Mcs doesn't exist! 
+ 2016-12-02 16:47:27 Thread-5 transfer ERROR Error happened when Caculate MD5 value, File: C:/BrazilTest/BrazilCentre//DATA/SJC_LID01_L0_PRW_STP_V01_2016112501000006.Mcs doesn't exist! 
+ 2016-12-02 16:47:27 Thread-5 transfer ERROR Error happened when Caculate MD5 value, File: C:/BrazilTest/BrazilCentre//DATA/SJC_LID01_L0_SRW_STP_V01_2016112501000004.Mcs doesn't exist! 
+ 2016-12-02 16:47:27 Thread-5 transfer ERROR Error happened when Caculate MD5 value, File: C:/BrazilTest/BrazilCentre//DATA/SJC_LID01_L0_PRW_STP_V01_2016112601000003.Mcs doesn't exist! 
+ 2016-12-02 16:47:31 Thread-6 transfer ERROR RepeatRequest server doesn't exist: BrazilTransfer
+ 2016-12-02 16:47:31 Thread-6 transfer ERROR RepeatRequest server doesn't exist: BrazilTransfer
+ 2016-12-02 16:47:31 Thread-6 transfer ERROR RepeatRequest server doesn't exist: BrazilTransfer
+ 2016-12-02 16:47:31 Thread-6 transfer ERROR RepeatRequest server doesn't exist: BrazilTransfer
+ 2016-12-02 16:47:31 Thread-6 transfer ERROR RepeatRequest server doesn't exist: BrazilTransfer
+ 2016-12-02 16:47:31 Thread-6 transfer ERROR RepeatRequest server doesn't exist: BrazilTransfer
+ 

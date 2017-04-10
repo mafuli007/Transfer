@@ -166,7 +166,7 @@ public class FtpTransfer extends Thread {
 
 		if (Utils.CreateFile(errRecordFileName, recordString)) {
 		} else {
-			LogUtils.logger.error("Create error record " + task.getFilename() + " Failed.");
+			LogUtils.logger.error("Create failed record " + task.getFilename() + " Failed.");
 		}
 	}
 
@@ -207,6 +207,12 @@ public class FtpTransfer extends Thread {
 				}
 			} else {
 				this.ftpclient.CheckStatus();
+				try {
+					Thread.sleep( 5 * 1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}

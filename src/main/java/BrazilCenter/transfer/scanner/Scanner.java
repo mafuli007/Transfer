@@ -20,10 +20,13 @@ import BrazilCenter.transfer.utils.XMLOperator;
 public class Scanner extends Thread {
 
 	private Configuration conf;
+	private List<FileObj> fileCacheList; // used to check if the file is ready.
 
 
 	public Scanner(Configuration config) {
 		this.conf = config;
+		fileCacheList = new LinkedList<FileObj>();
+
 	}
 
 	/** check if the md5 values is equal to the value stored in report. */
@@ -40,19 +43,58 @@ public class Scanner extends Thread {
 				return false;
 			}
 		} else {
-			LogUtils.logger.error("Error happened when Caculate MD5 value, File: " + filename + " doesn't exist! ");
+			LogUtils.logger.error("Error happened when Caculate MD5 value, File: " + filename + " does not exist! ");
 			return false;
+		}
+	}
+
+	/** get file size, usually when you copy the file to one directory, the following 
+	 * function will throw exceptions*/
+	private int getFileSize(File file) {
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(file);
+			int size = fis.available();
+			fis.close();
+			return size;
+		} catch (Exception e) {
+			return -1;
 		}
 	}
 
 	/**
 	 */
 	private boolean isFileReady(File file) {
-		if (file.renameTo(file)) {
-			return true;
-		} else {
-			return false;
+
+		/**
+		 * try to find if the the file already exist. if the file already exist,
+		 * then check if the length changes, if not then copy the file else
+		 * update the file's length.
+		 */
+		for (int i = 0; i < this.fileCacheList.size(); i++) {
+			FileObj tmpObj = this.fileCacheList.get(i);
+			if (file.getName().equals(tmpObj.getName())) {
+				this.fileCacheList.remove(i);
+				// file already exist.
+				int currentLen = this.getFileSize(file);
+				if (currentLen > 0) {
+					if (currentLen == tmpObj.getFilesize()) { // same size
+						return true;
+					} else { // different size;
+						tmpObj.setFilesize(this.getFileSize(file));
+						this.fileCacheList.add(tmpObj);
+						return false;
+					}
+				}
+			}
 		}
+		/** new file */
+		FileObj obj = new FileObj();
+		obj.setName(file.getName());
+		obj.setFilesize(this.getFileSize(file));
+		this.fileCacheList.add(obj);
+
+		return false;
 	}
 
 	private List<FileObj> DirectoryScan(String scanAddress) {
@@ -60,7 +102,7 @@ public class Scanner extends Thread {
 		List<FileObj> flist = new LinkedList<FileObj>();
 		File parentF = new File(scanAddress);
 		if (!parentF.exists()) {
-			LogUtils.logger.warn(scanAddress + ", File or directory doesn't exist!");
+			LogUtils.logger.warn(scanAddress + ", File or directory does not exist!");
 			parentF.mkdirs();
 			LogUtils.logger.info(scanAddress + " Created!");
 		} else {
@@ -77,7 +119,7 @@ public class Scanner extends Thread {
 							fileObj.setFilesize(file.length());
 							flist.add(fileObj);
 							CacheScanFileList.AddToCacheScanFileList(file.getName());
-							LogUtils.logger.info("Find new report file: " + file.getName());
+							LogUtils.logger.info("Find new report: " + file.getName());
 						}
 					}
 				}
@@ -116,7 +158,7 @@ public class Scanner extends Thread {
 							Utils.transferTaskQueue.AddTask(task);
 						}
 						
-						/**No mattern in which mode, the task has to be processed and stored.*/
+						/**No matter in which mode, the task has to be processed and stored.*/
 						Utils.storeTaskQueue.AddTask(task);
 						
 					} else {

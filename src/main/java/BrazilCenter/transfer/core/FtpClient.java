@@ -28,7 +28,7 @@ import BrazilCenter.transfer.utils.XMLOperator;
  *
  */
 public class FtpClient {
-	private FTPClient ftpclient = null;
+	private FTPClient _ftpclient = null;
 	private Configuration conf;
 	private FtpServerAddress centerAddress;
 	private boolean isConnected = false;
@@ -52,7 +52,7 @@ public class FtpClient {
 	public FtpClient(Configuration confr, FtpServerAddress address) {
 		this.conf = confr;
 		this.centerAddress = address;
-		ftpclient = new FTPClient();
+		_ftpclient = new FTPClient();
 	}
 
 	public boolean ReConnect() {
@@ -62,20 +62,20 @@ public class FtpClient {
 			} else {
 				while (true) {
 					try {
-						this.ftpclient.connect(this.centerAddress.getIp(), this.centerAddress.getPort());
-						this.ftpclient.setControlEncoding("UTF-8");
+						this._ftpclient.connect(this.centerAddress.getIp(), this.centerAddress.getPort());
+						this._ftpclient.setControlEncoding("UTF-8");
 
-						int reply = this.ftpclient.getReplyCode();
+						int reply = this._ftpclient.getReplyCode();
 						if (!FTPReply.isPositiveCompletion(reply)) {
-							this.ftpclient.disconnect();
+							this._ftpclient.disconnect();
 							LogUtils.logger.error(Thread.currentThread().getName() + " FTP connect failed!");
 						} else {
-							if (!this.ftpclient.login(this.centerAddress.getUsername(),
+							if (!this._ftpclient.login(this.centerAddress.getUsername(),
 									this.centerAddress.getPasswd())) {
 								LogUtils.logger.error("FTP login failed!");
 							} else {
-								LogUtils.logger.info(Thread.currentThread().getName() + " FTP login succcessfully!");
-								this.ftpclient.enterLocalPassiveMode();
+								LogUtils.logger.info(Thread.currentThread().getName() + " FTP relogin succcessfully!");
+								this._ftpclient.enterLocalPassiveMode();
 								this.isConnected = true;
 								return true;
 							}
@@ -98,15 +98,15 @@ public class FtpClient {
 
 	public boolean ConnectServer() {
 		try {
-			this.ftpclient.connect(this.centerAddress.getIp(), this.centerAddress.getPort());
-			this.ftpclient.setControlEncoding("UTF-8");
+			this._ftpclient.connect(this.centerAddress.getIp(), this.centerAddress.getPort());
+			this._ftpclient.setControlEncoding("UTF-8");
 
-			int reply = this.ftpclient.getReplyCode();
+			int reply = this._ftpclient.getReplyCode();
 			if (!FTPReply.isPositiveCompletion(reply)) {
-				this.ftpclient.disconnect();
+				this._ftpclient.disconnect();
 				return false;
 			} else {
-				if (!this.ftpclient.login(this.centerAddress.getUsername(), this.centerAddress.getPasswd())) {
+				if (!this._ftpclient.login(this.centerAddress.getUsername(), this.centerAddress.getPasswd())) {
 					return false;
 				} else {
 					this.isConnected = true;
@@ -116,29 +116,33 @@ public class FtpClient {
 			LogUtils.logger.error(Thread.currentThread().getName() + " FTP connect failed : UnknowHostExcpetion ");
 			return false;
 		} catch (Exception e) {
-			LogUtils.logger.error(Thread.currentThread().getName() + " FTP connect failed��" + e.getMessage());
+			LogUtils.logger.error(Thread.currentThread().getName() + " FTP connect failed!" + e.getMessage());
 			return false;
 		}
-		ftpclient.enterLocalPassiveMode();
+		_ftpclient.enterLocalPassiveMode();
+		//ftpclient.setDataTimeout(0);
 		return true;
 	}
 
 	/** Try to change the working place */
-	public void setWorkingPlace(String workingDir) {
+	public boolean setWorkingPlace(String workingDir) {
 		try {
-			while (!(this.ftpclient.changeWorkingDirectory(workingDir))) {
-				if (!ftpclient.makeDirectory(workingDir)) {
-					LogUtils.logger.error("Make Directory failed at FTP Server!");
+			while (!(this._ftpclient.changeWorkingDirectory(workingDir))) {
+				if (!_ftpclient.makeDirectory(workingDir)) {
+					LogUtils.logger.error("Create directory " + workingDir + " failed at FTP Server!");
+					return false;
 				}
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 
 	/**
-	 * generate the report file's name according the result of upload task.
+	 * Generate report file's name based on the result of upload task.
 	 * 
 	 * @param report
 	 * @return
@@ -146,14 +150,13 @@ public class FtpClient {
 	private String GenerateReportFileName(TransferReport report) {
 
 		String date_str = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-		/** delete the postfix from the file's name */
-		String fileNameWithoutPostfix = report.getFilename().substring(0, report.getFilename().lastIndexOf('.'));
+
 		String fileName = null;
 
 		if (false == report.getResult()) { // if failed to upload the file,
-			fileName = Utils.LOCAL_REPORT_DIR + "error/" + date_str + "_" + fileNameWithoutPostfix + ".xml";
+			fileName = Utils.LOCAL_REPORT_DIR + "error/" + date_str + "_" + report.getFilename() + ".xml";
 		} else {
-			fileName = Utils.LOCAL_REPORT_DIR + "ok/" + date_str + "_" + fileNameWithoutPostfix + ".xml";
+			fileName = Utils.LOCAL_REPORT_DIR + "ok/" + date_str + "_" + report.getFilename() + ".xml";
 		}
 
 		return fileName;
@@ -161,8 +164,7 @@ public class FtpClient {
 
 	/**
 	 * if the result of transfer task is true, it'll generate the report and
-	 * upload the report, else it'll only create a report file in the error
-	 * directory.
+	 * upload the report, else it'll only create a report in error directory.
 	 * 
 	 * @param report
 	 * @param result
@@ -202,16 +204,16 @@ public class FtpClient {
 		String workingDir = this.centerAddress.getDestinationDirectory() + "CTL/";
 		try {
 			fis = new FileInputStream(tmpfile);
-			while (!(this.ftpclient.changeWorkingDirectory(workingDir))) {
-				if (!ftpclient.makeDirectory(workingDir)) {
+			while (!(this._ftpclient.changeWorkingDirectory(workingDir))) {
+				if (!_ftpclient.makeDirectory(workingDir)) {
 					LogUtils.logger.error("Make Directory failed at FTP Server!");
 					return uploadresult;
 				}
 			}
-			this.ftpclient.setBufferSize(1024);
-			this.ftpclient.setControlEncoding("UTF-8");
-			this.ftpclient.setFileType(FTPClient.BINARY_FILE_TYPE);
-			if (this.ftpclient.storeFile(new String(tmpfile.getName().getBytes("UTF-8"), "iso-8859-1"), fis)) {
+			this._ftpclient.setBufferSize(1024);
+			this._ftpclient.setControlEncoding("UTF-8");
+			this._ftpclient.setFileType(FTPClient.BINARY_FILE_TYPE);
+			if (this._ftpclient.storeFile(new String(tmpfile.getName().getBytes("UTF-8"), "iso-8859-1"), fis)) {
 				uploadresult = true;
 			} else {
 				LogUtils.logger.error("Transfer report: " + tmpfile.getName() + " failed!");
@@ -223,7 +225,7 @@ public class FtpClient {
 		} catch (SocketException e) {
 			LogUtils.logger.error("Network Error: " + e.getMessage());
 			try {
-				this.ftpclient.disconnect();
+				this._ftpclient.disconnect();
 				LogUtils.logger.error("FTP disconnected! Try to connnect.....");
 				if (this.ReConnect() == true) {
 					return this.FtpUploadReport(report);
@@ -234,7 +236,7 @@ public class FtpClient {
 			}
 		} catch (IOException e) {
 			LogUtils.logger.error("Failed to transfer the report file: " + tmpfile.getName() + " " + e.getMessage());
-			if (!this.ftpclient.isConnected()) {
+			if (!this._ftpclient.isConnected()) {
 				this.isConnected = false;
 			}
 			return uploadresult;
@@ -263,26 +265,45 @@ public class FtpClient {
 		boolean uploadresult = false;
 		TransferReport report = new TransferReport();
 
+		/***
+		 * Try fo find if the connection is usable!
+		 */
+		int reply = this._ftpclient.getReplyCode();
+		if (!FTPReply.isPositiveCompletion(reply)) {
+			try {
+				this._ftpclient.disconnect();
+				this.isConnected = false;
+				if (this.ReConnect() == true) {
+					report = this.FtpUploadFile(task);
+					return report;
+				}
+			} catch (Exception ea) {
+				ea.printStackTrace();
+			}
+		}
+		
 		File srcFile = new File(task.getFilepath() + "/" + task.getFilename());
 		if (srcFile.exists()) {
 			String destination = this.centerAddress.getDestinationDirectory() + "DATA/";
-			this.setWorkingPlace(destination);
+			if(!this.setWorkingPlace(destination)){
+				this.Close();
+				this.ConnectServer();
+			}
 			task.setDestinationAddress(this.centerAddress.getName(), destination);
 			FileInputStream fis = null;
 			try {
 				fis = new FileInputStream(srcFile);
-				if (!this.ftpclient.changeWorkingDirectory(destination)) {
+				if (!this._ftpclient.changeWorkingDirectory(destination)) {
 					LogUtils.logger.error("ChangeWorkingDirectory " + destination + " Failed!");
 					report.setFailReason("Failed to Change the working direcotry in FTP server");
 				} else {
-					this.ftpclient.setBufferSize(1024);
-					this.ftpclient.setControlEncoding("UTF-8");
-					this.ftpclient.setFileType(FTPClient.BINARY_FILE_TYPE);
+					this._ftpclient.setBufferSize(1024);
+					this._ftpclient.setControlEncoding("UTF-8");
+					this._ftpclient.setFileType(FTPClient.BINARY_FILE_TYPE);
 					SimpleDateFormat startFormat = new SimpleDateFormat(Utils.dateFormat24Mis);
 					report.setStartSendTime(startFormat.format(new Date()));
-					if (this.ftpclient.storeFile(new String(task.getFilename().getBytes("UTF-8"), "iso-8859-1"), fis)) {
-						String date_str = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-						LogUtils.logger.info(date_str + " " + this.conf.getSoftwareId() + " To "
+					if (this._ftpclient.storeFile(new String(task.getFilename().getBytes("UTF-8"), "iso-8859-1"), fis)) {
+						LogUtils.logger.info(this.conf.getSoftwareId() + " To "
 								+ this.centerAddress.getName() + ", " + task.getFilename() + " Successfully!");
 						uploadresult = true;
 						SimpleDateFormat endFormat = new SimpleDateFormat(Utils.dateFormat24Mis);
@@ -296,7 +317,7 @@ public class FtpClient {
 			} catch (SocketException e) {
 				LogUtils.logger.error("Network error： " + e.getMessage());
 				try {
-					this.ftpclient.disconnect();
+					this._ftpclient.disconnect();
 					LogUtils.logger
 							.error(Thread.currentThread().getName() + " FTP disconnected, Try to connect again.....");
 					if (this.ReConnect() == true) {
@@ -308,10 +329,10 @@ public class FtpClient {
 					report.setFailReason("FTP server disconnect failed!, " + this.centerAddress.getIp());
 				}
 			} catch (IOException e) {
-				LogUtils.logger.error(Thread.currentThread().getName() + " file transfer failed:" + task.getTryCount()
-						+ ":" + srcFile.getName() + " " + e.getMessage());
+				LogUtils.logger.error(Thread.currentThread().getName() + " transfer failed: try " + task.getTryCount()
+						+ " times, file name: " + srcFile.getName() + ", error: " + e.getMessage());
 				report.setFailReason("IO error" + e.getMessage());
-				if (!this.ftpclient.isConnected()) {
+				if (!this._ftpclient.isConnected()) {
 					this.isConnected = false;
 				}
 			} catch (Exception e) {
@@ -334,7 +355,7 @@ public class FtpClient {
 				report.setMd5value(value);
 			}
 		} else {
-			LogUtils.logger.error("File doesn't exist:  " + srcFile.getName());
+			LogUtils.logger.error("File does not exist:  " + srcFile.getName());
 			report.setSize(0);
 			report.setMd5value("No Value");
 		}
@@ -350,9 +371,9 @@ public class FtpClient {
 
 	public void Close() {
 		try {
-			ftpclient.logout();
-			if (ftpclient.isConnected()) {
-				ftpclient.disconnect();
+			_ftpclient.logout();
+			if (_ftpclient.isConnected()) {
+				_ftpclient.disconnect();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -362,7 +383,7 @@ public class FtpClient {
 	public void CheckStatus() {
 		// TODO Auto-generated method stub
 		try {
-			if (this.ftpclient.sendNoOp() == false) {
+			if (this._ftpclient.sendNoOp() == false) {
 				this.setConnected(false);
 				this.ReConnect();
 			}

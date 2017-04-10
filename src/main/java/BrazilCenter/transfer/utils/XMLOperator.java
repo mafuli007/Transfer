@@ -90,6 +90,21 @@ public class XMLOperator {
 							} else {
 							}
 						}
+					} else if (tmp.getNodeName().compareTo("MqServerInfo") == 0) {
+						NodeList innernodelist = tmp.getChildNodes();
+						for (int m = 0; m < innernodelist.getLength(); m++) {
+							Node innernode = innernodelist.item(m);
+							String inerstrvalue = innernode.getTextContent();
+							if (innernode.getNodeName().compareTo("MqServerIP") == 0) {
+								this.conf.setMqHostIp(inerstrvalue);
+							} else if (innernode.getNodeName().compareTo("MqUserName") == 0) {
+								this.conf.setMqUserName(inerstrvalue);
+							} else if (innernode.getNodeName().compareTo("MqPasswd") == 0) {
+								this.conf.setMqUserPasswd(inerstrvalue);
+							} else {
+
+							}
+						}
 					} else if (tmp.getNodeName().compareTo("ReUploadServers") == 0) {
 						NodeList centerlist = tmp.getChildNodes();
 						for (int c_i = 0; c_i < centerlist.getLength(); c_i++) {
@@ -271,7 +286,7 @@ public class XMLOperator {
 		try {
 			File f = new File(fileName);
 			fis = new FileInputStream(f);
-			
+
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document = builder.parse(fis);
@@ -311,8 +326,8 @@ public class XMLOperator {
 		} catch (Exception e) {
 			LogUtils.logger.error("Failed to parse report: " + fileName);
 			return null;
-		}finally{
-			if(fis != null){
+		} finally {
+			if (fis != null) {
 				try {
 					fis.close();
 				} catch (IOException e) {

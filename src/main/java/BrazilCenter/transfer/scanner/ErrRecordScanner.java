@@ -42,7 +42,7 @@ public class ErrRecordScanner extends Thread {
 		List<FileObj> flist = new LinkedList<FileObj>();
 		File parentF = new File(scanAddress);
 		if (!parentF.exists()) {
-			LogUtils.logger.warn(scanAddress + " Directory doesn't exist!");
+			LogUtils.logger.warn(scanAddress + " Directory does not exist!");
 			parentF.mkdirs();
 			LogUtils.logger.info(scanAddress + " Created!");
 		} else {
@@ -52,7 +52,7 @@ public class ErrRecordScanner extends Thread {
 				File file = new File(scanAddress + File.separator + subFiles[i]);
 				if (file.isFile()) {
 					if (!CacheScanFileList.IfContainedInCacheScanFileList(file.getName())) {
-						LogUtils.logger.info("Found new Error Record: " + file.getName());
+						LogUtils.logger.info("Find new failed record: " + file.getName());
 						if (this.isFileReady(file)) {
 							FileObj fileObj = new FileObj();
 							fileObj.setName(file.getName());

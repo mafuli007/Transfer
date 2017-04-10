@@ -88,12 +88,42 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<configuration>
+					<configurationDirectory>conf</configurationDirectory>
+					<configurationSourceDirectory>src/main/resources</configurationSourceDirectory>
+					<copyConfigurationDirectory>true</copyConfigurationDirectory>
+					<includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
+					<assembleDirectory>${project.build.directory}/Transfer</assembleDirectory>
+					<binFileExtensions>
+						<unix>.sh</unix>
+					</binFileExtensions>
+					<platforms>
+						<platform>unix</platform>
+					</platforms>
+					<repositoryName>lib</repositoryName>
+					<programs>
+						<program>
+							<mainClass>BrazilCenter.transfer.Transfer.Main</mainClass>
+							<name>trasfer_start</name>
+						</program>
+					</programs>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
 		<dependency>
 			<groupId>BrazilCenter</groupId>
 			<artifactId>BrazilCenterUtils</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>BrazilCenter</groupId>
+			<artifactId>BrazilCenterProcessUtils</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
@@ -107,27 +137,13 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
-<!-- 		<dependency>
-			<groupId>org.hyperic</groupId>
-			<artifactId>sigar</artifactId>
-			<version>1.6.0</version>
-			<scope>system</scope>
-			<systemPath>H:/WorkSpace/lib/sigar.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.hyperic</groupId>
-			<artifactId>sigar</artifactId>
-			<version>adm64</version>
-			<scope>system</scope>
-			<systemPath>H:/WorkSpace/lib/sigar-amd64-winnt.dll</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.hyperic</groupId>
-			<artifactId>sigar</artifactId>
-			<version>x86</version>
-			<scope>system</scope>
-			<systemPath>H:/WorkSpace/lib/sigar-x86-winnt.dll</systemPath>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.hyperic</groupId> <artifactId>sigar</artifactId> 
+			<version>1.6.0</version> <scope>system</scope> <systemPath>H:/WorkSpace/lib/sigar.jar</systemPath> 
+			</dependency> <dependency> <groupId>org.hyperic</groupId> <artifactId>sigar</artifactId> 
+			<version>adm64</version> <scope>system</scope> <systemPath>H:/WorkSpace/lib/sigar-amd64-winnt.dll</systemPath> 
+			</dependency> <dependency> <groupId>org.hyperic</groupId> <artifactId>sigar</artifactId> 
+			<version>x86</version> <scope>system</scope> <systemPath>H:/WorkSpace/lib/sigar-x86-winnt.dll</systemPath> 
+			</dependency> -->
 		<dependency>
 			<groupId>commons-net</groupId>
 			<artifactId>commons-net</artifactId>

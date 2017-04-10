@@ -38,11 +38,11 @@ public class RepeatRequestService extends Thread {
 	}
 
 	/**
-	 * send the message to the reupload server.
+	 * send the message to reupload server.
 	 */
 	private void SendMsgToReuploadServer(TcpServerObj serverObj, RepeatRequestMsg message) {
 
-		/** 1. connnect to the reupload server */
+		/** 1. connnect to reupload server */
 		RequestTcpClient client = new RequestTcpClient(serverObj.getIp(), serverObj.getPort());
 
 		if (client.isConnected() == true) {
@@ -57,7 +57,7 @@ public class RepeatRequestService extends Thread {
 				message.setClientId(serverObj.getSoftwareId());
 				RepeatRequestService.shareMsgList.AddMsg(message);
 			} else {
-				LogUtils.logger.info("Sending Message: " + sendingMsg);
+				LogUtils.logger.info("Send message: " + sendingMsg);
 			}
 			client.Close();
 		} else {
@@ -76,7 +76,7 @@ public class RepeatRequestService extends Thread {
 	public void run() {
 		TcpServerObj serverObj = null;
 		RepeatRequestMsg msg = null;
-		LogUtils.logger.info("RepeatRequest Service Start.....");
+		LogUtils.logger.info("RepeatRequest service started!");
 		while (true) {
 			if ((msg = RepeatRequestService.shareMsgList.GetMsg()) != null) {
 				long date = msg.getLastTryDate();
@@ -96,7 +96,7 @@ public class RepeatRequestService extends Thread {
 						 */
 						serverObj = this.getTcpServerObj(msg.getClientId());
 						if (serverObj == null) {
-							LogUtils.logger.error("RepeatRequest server doesn't exist: " + msg.getClientId());
+							LogUtils.logger.error("RepeatRequest server does not exist: " + msg.getClientId());
 						}else{
 							this.SendMsgToReuploadServer(serverObj, msg);
 						}

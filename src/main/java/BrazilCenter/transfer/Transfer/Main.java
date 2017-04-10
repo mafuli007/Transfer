@@ -23,25 +23,28 @@ public class Main {
 
 		XMLOperator xmloperator = new XMLOperator();
 		if (!xmloperator.Initial()) {
-			LogUtils.logger.error("Parsing XML configuration failed!");
+			LogUtils.logger.error("parsing XML configuration failed!");
 			return;
 		}
 		Main.conf = xmloperator.getConfiguration();
 		PropertyConfigurator.configure("./log4j.properties");
-		LogUtils.logger.info("Parsing XML configuration!");
+		LogUtils.logger.info("parsing XML configuration successfully");
 
 		/** Initial the monitor thread */
 		MonitorTcpClient monitor_client = new MonitorTcpClient(conf.getMonitorServerIp(), conf.getMonitorServerPort());
 		Thread monitorThread = new Thread(monitor_client);
-		monitorThread.start();
 
 		HeartBeat heatbeat = new HeartBeat(conf, monitor_client);
 		heatbeat.start();
+		monitorThread.start();
 
+		LogUtils.logger.info("heartbeat started.");
+		
 		/** Initial scanning thread */
 		Scanner server = new Scanner(Main.conf);
 		Thread scanThread = new Thread(server);
 		scanThread.start();
+		LogUtils.logger.info("scanner started.");
 
 		/** Initial reget file service */
 		RepeatRequestService reGetFileService = new RepeatRequestService(conf);
@@ -61,6 +64,7 @@ public class Main {
 			dispatchThread.start();
 
 			/** Initial reupload service, ###this one should always be the last step. */
+			LogUtils.logger.info("reupload service started.");
 			ReUploadService reUploadService = new ReUploadService(conf);
 			reUploadService.StartServer();
 		}

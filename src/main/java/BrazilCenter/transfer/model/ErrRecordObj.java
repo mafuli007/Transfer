@@ -2,7 +2,7 @@ package BrazilCenter.transfer.model;
 
 /**
   * 
- * @author maful
+ * @author mafuli
  *
  */
 public class ErrRecordObj {
